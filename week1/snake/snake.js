@@ -17,25 +17,32 @@ let snake = [
 ];
 let food = {x: 15, y: 15};
 
-function snakeEquals(a, b) { 
-	/* fill here */
+function snakeEquals(a, b) {
+    return JSON.stringify(a) === JSON.stringify(b) 
 }
 
 function changeDirection(orientation) {
-    /* fill here */
+    const currentIndex = orientation.indexOf(direction);
+    const nextIndex = (currentIndex + 1) % orientation.length;
+    direction = orientation[nextIndex];
 }
 
 function start() {
+    // canvas to draw on
     const canvas  = document.getElementById("canvas");
     const context = canvas.getContext("2d");
 
+    // key events
     const rightArrow = 39;
     const leftArrow  = 37;
+
+    // assign function depending on key event
     window.onkeydown = evt => {
         const orientation = (evt.keyCode === rightArrow) ? clockwise : countercw;
         changeDirection(orientation);
     };
 
+    // game loop
     setInterval(() => {
         nextBoard();
         display(context);
@@ -53,25 +60,44 @@ function nextBoard() {
         return x
     }
 
-    const head = {
+    const newHead = {
         x: inBounds(oldHead.x + direction.dx, maxX),
         y: inBounds(oldHead.y + direction.dy, maxY)
     };
 
-    if (snakeEquals(food, head)) {  // have we found any food?
-        food.x = Math.floor(Math.random() * 20);   // place new food at random location
+    // have we found any food?
+    if (snakeEquals(food, newHead)) {  
+        // place new food at random location
+        food.x = Math.floor(Math.random() * 20);
         food.y = Math.floor(Math.random() * 20);
+        // increase snake
+        // snake.push(food);
     } else {
-        /* fill here */ // no food found => no growth despite new head => remove last element
+        // no food found => no growth despite new head => remove last element
+        snake.pop();
     }
 
-    /* fill here */; // put head at front of the list
+    // put head at front of the list
+
+    // snake.push(head);
+
+    // snake[3] = snake[2];
+    // snake[2] = snake[1];
+    // snake[1] = snake[0];
+    // snake[0] = newHead;
+
+    // for (let index = (snake.length-1); index > 0; index--) {
+    //     snake[index] = snake[index-1];
+    // }
+    // snake[0] = newHead;
+    snake.unshift(newHead);
 }
 
 function display(context) {
     // clear
     context.fillStyle = "black";
     context.fillRect(0, 0, canvas.width, canvas.height);
+
     // draw all elements
     context.fillStyle = "cyan";
     snake.forEach(element =>
@@ -79,6 +105,7 @@ function display(context) {
     );
     context.fillStyle = "green";
     fillBox(context, snake[0]);
+
     // draw food
     context.fillStyle = "red";
     fillBox(context, food);
