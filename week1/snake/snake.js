@@ -70,26 +70,13 @@ function nextBoard() {
         // place new food at random location
         food.x = Math.floor(Math.random() * 20);
         food.y = Math.floor(Math.random() * 20);
-        // increase snake
-        // snake.push(food);
+
     } else {
         // no food found => no growth despite new head => remove last element
         snake.pop();
     }
 
     // put head at front of the list
-
-    // snake.push(head);
-
-    // snake[3] = snake[2];
-    // snake[2] = snake[1];
-    // snake[1] = snake[0];
-    // snake[0] = newHead;
-
-    // for (let index = (snake.length-1); index > 0; index--) {
-    //     snake[index] = snake[index-1];
-    // }
-    // snake[0] = newHead;
     snake.unshift(newHead);
 }
 
