@@ -17,9 +17,10 @@ let snake = [
 ];
 let food = {x: 15, y: 15};
 
-function snakeEquals(a, b) {
-    return JSON.stringify(a) === JSON.stringify(b) 
-}
+// function snakeEquals(a, b) {
+//     return JSON.stringify(a) === JSON.stringify(b) 
+// }
+const snakeEquals = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 function changeDirection(orientation) {
     const currentIndex = orientation.indexOf(direction);
