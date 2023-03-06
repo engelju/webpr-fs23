@@ -6,18 +6,76 @@
 </head>
 <body>
     <script>
-
+        // a = 1        // don't do that
+        // var a = 1    // don't do that (variable hoisting)
+        // const x = 0;
         let x = 0;
+        document.writeln(x);
+
+        // functions are local scope!
+
+        // IIFE
+        
+        // expression NOT statement, since no semicolon
         function foo() {
             let x = 1;
             document.writeln(x);
         }
         foo();
-        document.writeln(x);
 
-        // document.writeln( id(id) === id);
-        // document.writeln( Konst(id)(undefined) === id);
-        // document.writeln( Kite(undefined)(id) === id);
+        // function expression which is immediatly called
+        (function() {
+            let x = 1;
+            document.writeln(x);
+        })();
+
+        // local scope => writing a function expression and immidialty call it
+        (() => {
+            let x = 1;
+            document.writeln(x);
+        })();
+
+        // newer way of doing this:
+        {
+            let x = 1;
+            document.writeln(x);
+        };
+
+        // ---
+        // lamda expression
+
+        const id = x => x;
+
+        // id(id);      // apply function
+        // (x => x)(id) // remove argument and parameter
+        // (id)         // resolves to: id
+        // id(id) === id   // test case
+
+        document.writeln( id(id) === id);
+
+        // function to always return the first parameter
+        const Konst = x => y => x; 
+
+        // Konst(id) === undefined;
+        // beta reduction:
+        // (x => y => x)(id)(undefined)
+        // (y => id)(undefined)
+        // (id)
+
+        document.writeln( Konst(id)(undefined) === id);
+        document.writeln( Konst(id)(1)         === id);
+        const konstid = Konst(id);
+        document.writeln( konstid() === id);
+
+        // ignores first one and return second one
+        // const Kite = x => y => y;
+        // const Kite = x => y => id(y);
+        // const Kite = x => id
+        // const Kite = x => (x => y => x)(id)(x);
+        // const Kite = x => Konst(id)(x);
+        const Kite = Konst(id);
+        
+        document.writeln( Kite(undefined)(id) === id);
 
     </script>
 </body>
